@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="bootstrap material admin template">
+		<meta name="viewport" content="width=device-width">
+		<title>{% block page-title %}TEST PAGE{% endblock page-title %}</title>
+		<!-- Icon CSS -->
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/css/global/iconstyle.css' %}" />
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/fonts/font-awasome/font-awesome.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/fonts/material-design/material-design.min.css' %}" />
+		<!-- Global plugin CSS -->
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/css/global/bootstrap.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/css/switchery/switchery.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/css/global/slidePanel.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/css/global/waves.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/plugin/bootstrap-tour/css/bootstrap-tour.css' %}" />
+		<!--  Global Template CSS -->
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/css/global/style.css' %}" />
+		<link id="site-color" rel="stylesheet" href="{% static 'financial-layout/assets/css/colors/default.css' %}" />
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/css/global/responsive.css' %}" />
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/css/global/site.min.css' %}" />
+		<!-- Page CSS -->
+		<link rel="stylesheet" href="{% static 'financial-layout/assets/plugin/jQuery-Form-Validator/css/theme-default.css' %}" />
+        {% block extra_css %}{% endblock extra_css %}
+        <script src="{% static 'financial-layout/assets/js/global/jquery.min.js' %}"></script>
+	</head>
+	<body class="dashboard site-navbar-small validations">
+			{% block page-content %}
+
+                <h1>My Personal Website</h1>
+
+			{% endblock page-content %}
+		<script src="{% static 'financial-layout/assets/js/global/bootstrap.min.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/plugin/bootstrap-tour/js/bootstrap-tour.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/js/global/waves.min.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/js/switchery/jQuery.switchery.min.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/js/full-screen-page/screenfull.min.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/js/home-page/jquery-slidePanel.min.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/js/home-page/sidebar.min.js' %}"></script>
+		<!-- Global Template JavaScript -->
+		<script src="{% static 'financial-layout/assets/js/global/site.min.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/js/sitesettings/site-settings.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/js/custom/custom-side-menu.js' %}"></script>
+		<!-- Page JavaScript -->
+		<script src="{% static 'financial-layout/assets/plugin/jQuery-Form-Validator/js/jquery.form-validator.min.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/plugin/jquery-ui/js/jquery-ui.min.js' %}"></script>
+		<script src="{% static 'financial-layout/assets/js/validation-form/custom-validation.min.js' %}"></script>
+        {% block extra_js %}{% endblock extra_js %}
+    </body>
+</html>

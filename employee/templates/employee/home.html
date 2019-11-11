@@ -1,0 +1,141 @@
+
+{% comment %}{% extends 'base-form.html' %}{% endcomment %}
+
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Paul Bactin</title>
+    {% comment %}<link rel="stylesheet" href="{% static 'css/main.css' %}" />{% endcomment %}
+    <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}" type = "text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body class="body" style="background-color:#f6f6f6">
+	<div class="container-fluid" style="min-height:100%; ">
+		<div class="row">
+			  <div class="col-sm-2">
+				  <br>
+				  <center>
+					<img src="{% static 'img/profile.png' %}" class="responsive-img" style='max-height:100px;' alt="face">
+				  </center>
+			  </div>
+			  <div class="col-sm-10">
+				  <br>
+				  <center>
+				  <h3>Name</h3>
+				  </center>
+			  </div>
+		</div><hr>
+
+		<div class="row">
+		  <div class="col-sm-2">
+		  <br>
+
+		  <br>
+		   <!-- Great, til you resize. -->
+			{% comment %}<div class="well bs-sidebar affix" id="sidebar">{% endcomment %}
+			{% comment %}<div class="well bs-sidebar" id="sidebar" style="background-color:#fff">{% endcomment %}
+			  <div class="container">
+                  <h2>Information Details:</h2>
+                  <p></p>
+
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#menu1">Personal Information</a></li>
+                    <li><a data-toggle="tab" href="#menu2">Educational Background</a></li>
+                    <li><a data-toggle="tab" href="#menu3">Family Background</a></li>
+                    <li><a data-toggle="tab" href="#menu4">Employment Record</a></li>
+                    <li><a data-toggle="tab" href="#menu5">Promotion</a></li>
+                    <li><a data-toggle="tab" href="#menu6">Medical History</a></li>
+                    <li><a data-toggle="tab" href="#menu7">Seminars/Trainings</a></li>
+                    <li><a data-toggle="tab" href="#menu8">Test Result</a></li>
+                    <li><a data-toggle="tab" href="#menu9">Violations</a></li>
+                  </ul>
+
+                  <div class="tab-content">
+                    <div id="menu1" class="tab-pane fade in active">
+                      <h3>Personal Info</h3>
+                      <p></p>
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                      <h3>Educational Background</h3>
+                      <p></p>
+                    </div>
+                    <div id="menu3" class="tab-pane fade">
+                      <h3>Family Background</h3>
+                      <p></p>
+                    </div>
+                    <div id="menu4" class="tab-pane fade">
+                      <h3>Employment Record</h3>
+                      <p></p>
+                    </div>
+                    <div id="menu5" class="tab-pane fade">
+                      <h3>Promotion</h3>
+                      <p></p>
+                    </div>
+                    <div id="menu6" class="tab-pane fade">
+                      <h3>Medical History</h3>
+                      <p></p>
+                    </div>
+                    <div id="menu7" class="tab-pane fade">
+                      <h3>Seminars/Trainings</h3>
+                      <p></p>
+                    </div>
+                    <div id="menu8" class="tab-pane fade">
+                      <h3>Test Result</h3>
+                      <p></p>
+                    </div>
+                    <div id="menu9" class="tab-pane fade">
+                      <h3>Violations</h3>
+                      <p></p>
+                    </div>
+                  </div>
+                </div>
+			{% comment %}</div> <!--well bs-sidebar affix-->{% endcomment %}
+		  </div> <!--col-sm-2-->
+		  <div class="col-sm-12">
+			<div class='container-fluid'>
+			    <br><br>
+			   {% block content %}
+			   {% endblock %}
+			</div>
+		  </div>
+		</div>
+	</div>
+	{% comment %}<footer>
+		<div class="container-fluid">
+			<p><a href="http://www.inquirer.com.ph/contacts-us/" target="_blank">Contact</a> | <a href="http://www.inquirer.com.ph" target="_blank">Philippine Daily Inquirer</a></p>
+		</div>
+	</footer>{% endcomment %}
+
+</body>
+
+</html>
+
+
+
+
+{% comment %}<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+</head>
+<body>
+
+    <header>
+        <div id="sitebox">
+            <h1>My Personal Website</h1>
+        </div>
+    </header>
+
+</body>
+</html>{% endcomment %}
+
+

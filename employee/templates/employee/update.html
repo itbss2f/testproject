@@ -1,0 +1,872 @@
+
+{% comment %}{% extends 'base-form.html' %}{% endcomment %}
+
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type = "text/css"/>
+    <link rel="stylesheet" href="{% static 'font/on-server/css/fontawesome.min.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+
+    select.form-control:not([size]):not([multiple])
+    {
+        color: #444645;
+{#        background: #ddd;#}
+        height: 34px;
+{#        margin-top: 10px;#}
+    }
+    .btn-primary
+    {
+        margin-top: 10px;
+    }
+
+    .requiredfield:not(.likert-label):after
+    {
+        content: " *";
+        color: #FF0000;
+        font-size: 10px;
+        position: absolute;
+        margin-left: 6px;
+        margin-top: 5px;
+        line-height: 100%;
+    }
+
+    ul.errorlist
+    {
+        margin-top: 5px;
+        color: red;
+    }
+
+
+    </style>
+</head>
+
+<body class="body" style="background-color:#f6f6f6">
+	<div class="container-fluid" style="min-height:100%; ">
+		<div class="row">
+			  <div class="col-sm-2">
+				  <br>
+				  <center>
+					<img src="{% static './img/profile.png' %}" class="responsive-img" style='max-width: 150px ;max-height:150px;' alt="face">
+				  </center>
+			  </div>
+			  <div class="col-sm-10">
+				  <br>
+				  <center>
+                <h3>
+                    {{ object.last_name }}
+                    {{ object.first_name }}
+                    {{ object.middle_name }}.</br></br>
+                </h3>
+                <h4>
+                    {{ object.department }}</br>
+
+{#                     {% for data in college %}#}
+{#                          {{ data.name }}#}
+{#                        <select class="form-control" id="id_college" name="college[]">#}
+{#                            <option value="">----------</option>#}
+{#                            {% for college in mcollege %}#}
+{#                                <option value="{{college.id}}" {% if data.name_id|add:0 == college.id %} selected="selected" {% endif %}>{{college.name}}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    {% endfor %}#}
+
+
+{#                    {% for college in mcollege %}#}
+{#                        {{ college.id }}#}
+{#                        {% empty %}#}
+{#                           No Records#}
+{#                    {% endfor %}#}
+
+{#                    {% for employment_record in employee.employment_record.all %}#}
+{#                            {{ employment_record.cname }}#}
+{#                        {% empty %}#}
+{#                           No Records#}
+{#                    {% endfor %}#}
+
+                </h4>
+                    {{ object.company }}</br>
+                    {{ object.address.a_house_num }}
+                    {{ object.address.a_street_subd }}
+                    {{ object.address.a_barangay }}
+                    {{ object.address.a_city_id }}
+                    {{ object.address.a_province_id }}
+
+                      </br>
+
+				  </center>
+			  </div>
+		</div><hr>
+        <div class="row">
+            <div class="col-sm-2">
+               <!-- Great, til you resize. -->
+                {% comment %}<div class="well bs-sidebar affix" id="sidebar">{% endcomment %}
+                {% comment %}<div class="well bs-sidebar" id="sidebar" style="background-color:#fff">{% endcomment %}
+                <div class="container">
+                    <p></p>
+{#                    Tabs Menu#}
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#menu1">Personal Details</a></li>
+                        <li><a data-toggle="tab" href="#menu2">Educational Background</a></li>
+                        <li><a data-toggle="tab" href="#menu3">Family Background</a></li>
+                        <li><a data-toggle="tab" href="#menu4">Employment</a></li>
+                        <li><a data-toggle="tab" href="#menu5">Employment Record</a></li>
+                        <li><a data-toggle="tab" href="#menu6">Promotion</a></li>
+                        <li><a data-toggle="tab" href="#menu7">Medical History</a></li>
+                        <li><a data-toggle="tab" href="#menu8">Seminars/Trainings</a></li>
+                        <li><a data-toggle="tab" href="#menu9">Test Result</a></li>
+                        <li><a data-toggle="tab" href="#menu10">Violations</a></li>
+                    </ul>
+                    <form action="" method="POST" class="form-horizontal">
+                        {% csrf_token %}
+                        {#        Start of Tab Contents#}
+                        <div class="tab-content">
+
+                            <div id="menu1" class="tab-pane fade in active">
+                                <div class="row" style="margin-top: 30px">
+                                    <label class="control-label col-sm-2 requiredfield" for="id_last_name">Last name:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_last_name" maxlength="64" name="last_name" type="text" value="{{ form.last_name.value|default:'' }}">
+                                        {{ form.last_name.errors }}
+                                    </div>
+                                    <label class="col-sm-2 requiredfield" for="id_dob">Date of Birth:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_dob" maxlength="30" name="dob" type="date" value="{{ object.dob|date:'Y-m-d'|default:'' }}">
+                                        {{ form.dob.errors }}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_middle_name">Middle name:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_middle_name" maxlength="64" name="middle_name" type="text" value="{{ form.middle_name.value|default:'' }}">
+                                    </div>
+                                    <label class="col-sm-2 requiredfield" for="id_pob">Place of Birth:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_pob" maxlength="30" name="pob" type="text" value="{{ form.pob.value|default:'' }}">
+                                        {{ form.pob.errors }}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2 requiredfield" for="id_first_name">First name:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_first_name" maxlength="64" name="first_name" type="text" value="{{ form.first_name.value|default:'' }}">
+                                        {{ form.first_name.errors }}
+                                    </div>
+                                    <label class="col-sm-2 requiredfield" for="id_gender">Gender:</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_gender" name="gender">
+                                            <option value="">----------</option>
+                                            <option value="{{ 1 }}" {% if form.gender.value|add:0 == 1 %} selected="selected" {% endif %}>MALE</option>
+                                            <option value="{{ 2 }}" {% if form.gender.value|add:0 == 2 %} selected="selected" {% endif %}>FEMALE</option>
+                                        </select>
+                                        {{ form.gender.errors }}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2 requiredfield" for="id_email">Email:(ex: josh@google.com)</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_email" maxlength="50" name="email" type="email" value="{{ form.email.value|default:'' }}">
+                                        {{ form.email.errors }}
+                                    </div>
+                                    <label class="col-sm-2 requiredfield" for="id_civil_status">Marital Status:</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_civil_status" name="civil_status">
+                                            <option value="">----------</option>
+                                            {% for civil_status in civil_status %}
+                                                <option value="{{civil_status.id}}" {% if form.civil_status.value|add:0 == civil_status.id %} selected="selected" {% endif %}>{{civil_status.code}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {{ form.civil_status.errors }}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_nationality">Nationality:</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_nationality" name="nationality">
+                                            <option value="">----------</option>
+                                            {% for nationality in nationality %}
+                                                <option value="{{nationality.id}}" {% if form.nationality.value|add:0 == nationality.id %} selected="selected" {% endif %}>{{nationality.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <label class="col-sm-2" for="id_religion">Religion:</label>
+                                    <div class="col-sm-4">
+                                         <select class="form-control" id="id_religion" name="religion">
+                                            <option value="">----------</option>
+                                            {% for religion in religion %}
+                                                <option value="{{religion.id}}" {% if form.religion.value|add:0 == religion.id %} selected="selected" {% endif %}>{{religion.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_telnum">Telephone Number:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_telnum" maxlength="30" name="telnum" type="number" value="{{ object.telnum|default:'' }}">
+                                    </div>
+                                    <label class="col-sm-2 requiredfield" for="id_cphonenum">Cellphone Number:(0917-7 Digits)</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_cphonenum" maxlength="50" name="cphonenum" type="text" title="0917-7 Digits" placeholder="0917-XXXXXXX" pattern="[0-9]{4}-[0-9]{7}" value="{{ object.cphonenum|default:'' }}">
+                                        {{ form.cphonenum.errors }}
+                                    </div>
+                                </div>
+                                <div id='formaddress'>
+                                    <h6 class="btn btn-primary">In case of Emergency</h6>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_clast_name">Last name:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_clast_name" maxlength="64" name="clast_name" type="text" value="{{ object.contactperson.clast_name|default:'' }}">
+                                    </div>
+                                    <label class="col-sm-2" for="id_ctelnum">Telephone Number:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_ctelnum" maxlength="30" name="ctelnum" type="number" value="{{ object.contactperson.ctelnum|default:'' }}">
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_cmiddle_name">Middle name:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_cmiddle_name" maxlength="64" name="cmiddle_name" type="text" value="{{ object.contactperson.cmiddle_name|default:'' }}">
+                                    </div>
+                                    <label class="col-sm-2" for="id_ccphonenum">Cellphone Number:(0917-7 Digits)</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_ccphonenum" maxlength="50" name="ccphonenum" type="text" title="0917-7 Digits" placeholder="0917-XXXXXXX" pattern="[0-9]{4}-[0-9]{7}" value="{{ object.contactperson.ccpnum|default:'' }}">
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_cfirst_name">First name:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_cfirst_name" maxlength="64" name="cfirst_name" type="text" value="{{ object.contactperson|default:'' }}">
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                                <div id='formaddress'>
+                                    <h6 class="btn btn-primary">Present Address</h6>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_a_house_num">House/Bldg/Unit No.:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_a_house_num" maxlength="120"  name="a_house_num" type="text" placeholder="House/Bldg/Unit No." value="{{ object.address.a_house_num|default:'' }}">
+                                    </div>
+                                    <label class="col-sm-2" for="id_a_street_subd">Street/Subdivision:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_a_street_subd" maxlength="120"  name="a_street_subd" type="text" placeholder="Street/Subdivision" value="{{ object.address.a_street_subd|default:'' }}">
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_a_barangay">Barangay</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_a_barangay" maxlength="120"  name="a_barangay" type="text" value="{{ object.address.a_barangay|default:'' }}">
+                                    </div>
+                                    <label class="col-sm-2" for="id_a_zipcode">Zip:</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="id_a_zipcode" maxlength="4" name="a_zipcode" type="number" readonly="readonly" value="{{ object.address.a_zipcode|default:'' }}">
+                                        {{ form.a_zipcode.errors }}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_a_province">Province</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_a_province" name="a_province">
+                                            <option value="">----------</option>
+                                            {% for data in province %}
+                                                <option value="{{data.id}}" {% if object.address.a_province.id|add:0 == data.id %} selected="selected" {% endif %}>{{data.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <label class="col-sm-2" for="id_a_city">Municipality/City</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_a_city" name="a_city">
+                                            <option value="">----------</option>
+                                            {% for data in cities %}
+                                                <option value="{{data.id}}" {% if object.address.a_city.id|add:0 == data.id  %} selected="selected" {% endif %}>{{data.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id='formaddress'>
+                                    <h6 class="btn btn-primary">Provincial Address</h6>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_p_house_num">House/Bldg/Unit No.:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_p_house_num" maxlength="120"  name="p_house_num" type="text" placeholder="House/Bldg/Unit No." value="{{ object.address.p_house_num|default:'' }}">
+                                    </div>
+                                    <label class="col-sm-2" for="id_p_street_subd">Street/Subdivision:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_p_street_subd" maxlength="120"  name="p_street_subd" type="text" placeholder="Street/Subdivision" value="{{ object.address.p_street_subd|default:'' }}">
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_p_barangay">Barangay</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_p_barangay" maxlength="120"  name="p_barangay" type="text" value="{{ object.address.p_barangay|default:'' }}">
+                                    </div>
+                                    <label class="col-sm-2" for="id_p_zipcode">Zip:</label>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="id_p_zipcode" maxlength="4" name="p_zipcode" type="number" readonly="readonly" value="{{ object.address.p_zipcode|default:'' }}">
+                                        {{ form.p_zipcode.errors }}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_p_province">Province</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_p_province" name="p_province">
+                                            <option value="">----------</option>
+                                            {% for data in provincial %}
+                                                <option value="{{data.id}}" {% if object.address.p_province.id|add:0 == data.id %} selected="selected" {% endif %}>{{data.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <label class="col-sm-2" for="id_p_city">Municipality/City</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_p_city" name="p_city">
+                                            <option value="">----------</option>
+                                            {% for data in city %}
+                                                <option value="{{data.id}}" {% if object.address.p_city.id|add:0 == data.id %} selected="selected" {% endif %}>{{data.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {{ form.p_city.errors }}
+                                    </div>
+                                </div>
+                                <center style="text-align: center;margin-top: 10px">
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </center>
+                            </div>
+                            <div id="menu2" class="tab-pane fade">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" style="margin-top: 10px" for="id_primary">Primary:</label>
+                                    <div class="col-sm-4" style="margin-top: 10px">
+                                        {% for data in primary %}
+{#                                            {{ data.name }}#}
+                                            <select class="form-control select2 primary" id="id_primary" name="primary[]">
+                                                <option value="">----------</option>
+                                                {% for primary in mschool %}
+                                                    <option value="{{primary.id}}" {% if data.name_id|add:0 == primary.id %} selected="selected" {% endif %}>{{primary.name}}</option>
+                                                    {% empty %}
+                                                {% endfor %}
+                                            </select>
+                                            {% empty %}
+                                            <select class="form-control select2 primary" id="id_primary" name="primary[]">
+                                                <option value="">----------</option>
+                                                {% for primary in mschool %}
+                                                    <option value="{{primary.id}}">{{primary.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endfor %}
+                                    </div>
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="id_secondary">Secondary:</label>
+                                    <div class="col-sm-4">
+                                        {% for data in secondary %}
+{#                                            {{ data.name }}#}
+                                            <select class="form-control select2 secondary" id="id_secondary" name="secondary[]">
+                                                <option value="">----------</option>
+                                                {% for secondary in mschool %}
+                                                    <option value="{{secondary.id}}" {% if data.name_id|add:0 == secondary.id %} selected="selected" {% endif %}>{{secondary.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% empty %}
+                                            <select class="form-control select2 secondary" id="id_secondary" name="secondary[]">
+                                                <option value="">----------</option>
+                                                {% for secondary in mschool %}
+                                                    <option value="{{secondary.id}}">{{secondary.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endfor %}
+                                    </div>
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="id_college">Tertiary:</label>
+                                    <div class="col-sm-4">
+                                        {% for data in college %}
+{#                                            {{ data.name }}#}
+                                            <select class="form-control select2 college" id="id_college" name="college[]">
+                                                <option value="">----------</option>
+                                                {% for college in mschool %}
+                                                    <option value="{{college.id}}" {% if data.name_id|add:0 == college.id %} selected="selected" {% endif %}>{{college.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% empty %}
+                                            <select class="form-control select2 secondary" id="id_college" name="college[]">
+                                                <option value="">----------</option>
+                                                {% for college in mschool %}
+                                                    <option value="{{college.id}}">{{college.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endfor %}
+                                    </div>
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                    <button id="item_add" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <div id="menu3" class="tab-pane fade">
+                                {% for employee_family_father in employee_family_father %}
+                                    <input class="form-control" id="id_fam_relation" maxlength="64" name="fam_relation[]" type="hidden" value="{{ employee_family_father.fam_relation_id }}">
+                                {% endfor %}
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="col-sm-2" for="id_fam_first_name">Father name:</label>
+                                    <div class="col-sm-3">
+                                        {% for employee_family_father in employee_family_father %}
+                                            <input class="form-control" id="id_fam_first_name" maxlength="64" name="fam_first_name[]" type="text" value="{{ employee_family_father.fam_first_name|default:'' }}">
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-1" for="id_fam_middle_name">MI:</label>
+                                    <div class="col-sm-2">
+                                        {% for employee_family_father in employee_family_father %}
+                                            <input class="form-control" id="id_fam_middle_name" maxlength="64" name="fam_middle_name[]" type="text" value="{{ employee_family_father.fam_middle_name|default:'' }}">
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-2" for="id_fam_last_name">Father lastname:</label>
+                                    <div class="col-sm-2">
+                                        {% for employee_family_father in employee_family_father %}
+                                            <input class="form-control" id="id_fam_last_name" maxlength="64" name="fam_last_name[]" type="text" value="{{ employee_family_father.fam_last_name|default:'' }}">
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    {% for employee_family_Mother in employee_family_Mother %}
+                                    <input class="form-control" id="id_fam_relation" maxlength="64" name="fam_relation[]" type="hidden" value="{{ employee_family_Mother.fam_relation_id }}">
+                                    {% endfor %}
+                                    <label class="col-sm-2" for="id_fam_first_name">Mother name:</label>
+                                    <div class="col-sm-3">
+                                        {% for employee_family_Mother in employee_family_Mother %}
+                                            <input class="form-control" id="id_fam_first_name" maxlength="64" name="fam_first_name[]" type="text" value="{{ employee_family_Mother.fam_first_name|default:'' }}">
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-1" for="id_fam_middle_name">MI:</label>
+                                    <div class="col-sm-2">
+                                        {% for employee_family_Mother in employee_family_Mother %}
+                                            <input class="form-control" id="id_fam_middle_name" maxlength="64" name="fam_middle_name[]" type="text" value="{{ employee_family_Mother.fam_middle_name|default:'' }}">
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-2" for="id_fam_last_name">Mother lastname:</label>
+                                    <div class="col-sm-2">
+                                        {% for employee_family_Mother in employee_family_Mother %}
+                                            <input class="form-control" id="id_fam_last_name" maxlength="64" name="fam_last_name[]" type="text" value="{{ employee_family_Mother.fam_last_name|default:'' }}">
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    {% for employee_family_Sister in employee_family_Sister %}
+                                    <input class="form-control" id="id_fam_relation" maxlength="64" name="fam_relation[]" type="hidden" value="{{ employee_family_Sister.fam_relation_id }}">
+                                    {% endfor %}
+                                    <label class="col-sm-2" for="id_fam_first_name">Sister:</label>
+                                    <div class="col-sm-3">
+                                        {% for employee_family_Sister in employee_family_Sister %}
+                                            <input class="form-control" id="id_fam_first_name" maxlength="64" name="fam_first_name[]" type="text" value="{{ employee_family_Sister.fam_first_name|default:'' }}"></br>
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-1" for="id_fam_middle_name">MI:</label>
+                                    <div class="col-sm-2">
+                                        {% for employee_family_Sister in employee_family_Sister %}
+                                            <input class="form-control" id="id_fam_middle_name" maxlength="64" name="fam_middle_name[]" type="text" value="{{ employee_family_Sister.fam_middle_name|default:'' }}"></br>
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-2" for="id_fam_last_name">lastname:</label>
+                                    <div class="col-sm-2">
+                                        {% for employee_family_Sister in employee_family_Sister %}
+                                            <input class="form-control" id="id_fam_last_name" maxlength="64" name="fam_last_name[]" type="text" value="{{ employee_family_Sister.fam_last_name|default:'' }}"></br>
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    {% for employee_family_Brother in employee_family_Brother %}
+                                    <input class="form-control" id="id_fam_relation" maxlength="64" name="fam_relation[]" type="hidden" value="{{ employee_family_Brother.fam_relation_id }}">
+                                    {% endfor %}
+                                    <label class="col-sm-2" for="id_fam_first_name">Brother:</label>
+                                    <div class="col-sm-3">
+                                        {% for employee_family_Brother in employee_family_Brother %}
+                                            <input class="form-control" id="id_fam_first_name" maxlength="64" name="fam_first_name[]" type="text" value="{{ employee_family_Brother.fam_first_name|default:'' }}"></br>
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-1" for="id_fam_middle_name">MI:</label>
+                                    <div class="col-sm-2">
+                                        {% for employee_family_Brother in employee_family_Brother %}
+                                            <input class="form-control" id="id_fam_middle_name" maxlength="64" name="fam_middle_name[]" type="text" value="{{ employee_family_Brother.fam_middle_name|default:'' }}"></br>
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-2" for="id_fam_last_name">lastname:</label>
+                                    <div class="col-sm-2">
+                                        {% for employee_family_Brother in employee_family_Brother %}
+                                            <input class="form-control" id="id_fam_last_name" maxlength="64" name="fam_last_name[]" type="text" value="{{ employee_family_Brother.fam_last_name|default:'' }}"></br>
+                                        {% empty %}
+                                                No Records
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <center style="text-align: center;margin-top: 10px">
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </center>
+                            </div>
+                            <div id="menu4" class="tab-pane fade">
+{#                                <div class="row" style="margin-top: 10px">#}
+{#                                    <div class="col-sm-4">#}
+{#                                        <select class="form-control" id="selectBox" name="selectBox">#}
+{#                                            <option value="option1"> option1 </option>#}
+{#                                            <option value="option2"> option2 </option>#}
+{#                                            <option value="option3"> option3 </option>#}
+{#                                            <option value="option4"> option4 </option>#}
+{#                                        </select>#}
+{#                                    </div>#}
+{#                                    <button type="button" class="btn btn-primary" >Add</button>#}
+{#                                </div>#}
+                                <div class="row">
+                                    <div class="col-sm-4" style="margin-top: 10px" hidden="hidden">
+                                        <input id="id_company" name="company" value="{{ object.company.id }}">
+                                    </div>
+                                    <div class="col-sm-4" style="margin-top: 10px" hidden="hidden">
+                                        <input id="id_date_entered" name="date_entered" value="{{ object.date_entered|date:'Y-m-d' }}">
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_company">Company:</label>
+                                    <div class="col-sm-4" style="margin-top: 10px">
+                                        {{ object.company }}
+                                    </div>
+                                    <label class="col-sm-2 requiredfield" for="id_branch_assigned">Branch Assign:</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_branch_assigned" name="branch_assigned">
+                                            <option value="">----------</option>
+                                            {% for branch in branch %}
+                                                <option value="{{branch.id}}" {% if form.branch_assigned.value|add:0 == branch.id %} selected="selected" {% endif %}>{{branch.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {{ form.branch_assigned.errors }}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2 requiredfield" for="id_code">Employee id:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_code" maxlength="30" name="code" type="text" value="{{ object.code|default:'' }}">
+                                        {{ form.code.errors }}
+                                    </div>
+{#                                    <label class="control-label col-sm-1" for="id_cardno">Card No:</label>#}
+{#                                    <div class="col-sm-2">#}
+{#                                        <input class="form-control" id="id_cardno" maxlength="30" name="cardno" type="text" value="{{ object.cardno }}">#}
+{#                                    </div>#}
+                                    <label class="col-sm-2 requiredfield" for="id_date_hired">Date Hired:</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_date_hired" maxlength="30" name="date_hired" type="date" value="{{ object.date_hired|date:'Y-m-d'|default:'' }}">
+{#                                        {{ form.date_hired.errors }}#}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_employee_position">Position:</label>
+                                    <div class="col-sm-4">
+                                        {% for data in empposition %}
+{#                                            {{ data.id }}#}
+                                            <select class="form-control select2 employee_position" id="id_employee_position" name="" disabled="disabled">
+                                                <option value="">----------</option>
+                                                {% for empposition in positions %}
+                                                    <option value="{{empposition.id}}" {% if data.position_id|add:0 == empposition.id %} selected="selected" {% endif %}>{{empposition.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% empty %}
+                                            <select class="form-control select2 employee_position" id="id_employee_position" name="">
+                                                <option value="">----------</option>
+                                                {% for empposition in positions %}
+                                                    <option value="{{empposition.id}}">{{empposition.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endfor %}
+                                    </div>
+                                    <label class="col-sm-2 requiredfield" for="id_position_level">Position level:</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" id="id_position_level" name="position_level">
+                                            <option value="">----------</option>
+                                            {% for position_level in position_level %}
+                                                <option value="{{position_level.id}}" {% if form.position_level.value|add:0 == position_level.id %} selected="selected" {% endif %}>{{position_level.description}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {{ form.position_level.errors }}
+                                    </div>
+{#                                    <label class="col-sm-1" for="id_position_class">Position Class:</label>#}
+{#                                    <div class="col-sm-1">#}
+{#                                        <input class="form-control" id="id_position_class" maxlength="64" name="position_class" type="text" value="{{ object.position_class }}">#}
+{#                                    </div>#}
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_department">Department:</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_department" name="department">
+                                            <option value="">----------</option>
+                                            {% for department in department %}
+                                                <option value="{{department.id}}" {% if form.department.value|add:0 == department.id %} selected="selected" {% endif %}>{{department.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {{ form.department.errors }}
+                                    </div>
+                                    <label class="col-sm-2 requiredfield" for="id_status">Employee Status:</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="id_status" name="status">
+                                            <option value="">----------</option>
+                                            {% for status in status %}
+                                                <option value="{{status.id}}" {% if form.status.value|add:0 == status.id %} selected="selected" {% endif %}>{{status.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {{ form.status.errors }}
+                                    </div>
+                                </div>
+{#                                <div class="row" style="margin-top: 10px">#}
+{#                                    <label class="control-label col-sm-2" for="id_dept_section">Dept/Section:</label>#}
+{#                                    <div class="col-sm-4">#}
+{#                                        <input class="form-control" id="id_dept_section" maxlength="30" name="dept_section" type="text">#}
+{#                                    </div>#}
+{#                                    <label class="col-sm-2" for="id_division">Division:</label>#}
+{#                                    <div class="col-sm-4">#}
+{#                                        <input class="form-control" id="id_division" maxlength="30" name="division" type="text">#}
+{#                                    </div>#}
+{#                                </div>#}
+                                <div class="row" style="margin-top: 10px">
+{#                                    <label class="control-label col-sm-2" for="id_immediate_head">Immediate Head:</label>#}
+{#                                    <div class="col-sm-4">#}
+{#                                        <input class="form-control" id="id_immediate_head" maxlength="30" name="immediate_head" type="text">#}
+{#                                    </div>#}
+                                </div>
+                                <div id='formaddress'>
+                                    <h6 class="btn btn-primary">Government ID's Details</h6>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_tin">TIN:(XXX-XXX-XXX)</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_tin" maxlength="30" name="tin" type="text" title="XXX-XXX-XXX" placeholder="XXX-XXX-XXX" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" value="{{ object.tin|default:'' }}">
+                                    </div>
+                                    <label class="control-label col-sm-2" for="id_sssno">SSS NO:(XX-XXXXXXXX-X)</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_sssno" maxlength="30" name="sssno" type="text" title="XX-XXXXXXXX-X" placeholder="XX-XXXXXXXX-X" pattern="(?!00)[0-9]{2}-(?!0000)[0-9]{8}-[0-9]{1}$" value="{{ object.sssno|default:'' }}">
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_pag_ibig">Pag-ibig:(XXXX-XXXX-XXXX)</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_pag_ibig" maxlength="30" name="pagibig" type="text" title="XXXX-XXXX-XXXX" placeholder="XXXX-XXXX-XXXX" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}" value="{{ object.pagibig|default:'' }}">
+                                    </div>
+                                    <label class="control-label col-sm-2" for="id_philhealth">Philhealth:(XX-XXXXXXXXX-X)</label>
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="id_philhealth" maxlength="30" name="philhealth" type="text" title="XX-XXXXXXXXX-X" placeholder="XX-XXXXXXXXX-X" pattern="[0-9]{2}-[0-9]{9}-[0-9]{1}" value="{{ object.philhealth|default:'' }}">
+                                    </div>
+                                </div>
+                                <center style="text-align: center;margin-top: 10px">
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </center>
+                            </div>
+                            <div id="menu5" class="tab-pane fade">
+                                <div class="row" style="margin-top: 10px">
+                                    <label class="control-label col-sm-2" for="id_cname">Company:</label>
+                                    <div class="col-sm-4">
+                                        {% for employment_record in employee.employment_record.all %}
+                                            <input class="form-control" id="id_cname" maxlength="64" name="cname[]" type="text" value="{{ employment_record.cname|default:'' }}"></br>
+                                        {% empty %}
+                                               No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="control-label col-sm-1" for="id_yearfrom">From</label>
+                                    <div class="col-sm-2">
+                                        {% for employment_record in employee.employment_record.all %}
+                                            <input class="form-control" id="id_yearfrom" maxlength="30" name="yearfrom[]" type="date" value="{{ employment_record.yearfrom|date:'Y-m-d'|default:'' }}"></br>
+                                        {% empty %}
+                                               No Records
+                                        {% endfor %}
+                                    </div>
+                                    <label class="control-label col-sm-1" for="id_yearto">To</label>
+                                    <div class="col-sm-2">
+                                        {% for employment_record in employee.employment_record.all %}
+                                            <input class="form-control" id="id_yearto" maxlength="30" name="yearto[]" type="date" value="{{ employment_record.yearto|date:'Y-m-d'|default:'' }}"></br>
+                                        {% empty %}
+                                               No Records
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <center style="text-align: center;margin-top: 10px">
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </center>
+                            </div>
+                            <div id="menu6" class="tab-pane fade">
+{#                                <h3>Promotions</h3>#}
+                                <div class="form-group" style="margin-top: 20px">
+                                    <label class="control-label col-sm-2" for="id_employee_position">Position:</label>
+                                    <div class="col-sm-4">
+                                        {% for data in empposition %}
+    {#                                            {{ data.id }}#}
+                                            <select class="form-control" id="id_employee_position" name="employee_position" style="margin-top: 10px">
+                                                <option value="">----------</option>
+                                                {% for empposition in positions %}
+                                                    <option value="{{empposition.id}}" {% if data.position_id|add:0 == empposition.id %} selected="selected" {% endif %}>{{empposition.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% empty %}
+{#                                            <select class="form-control select2" id="id_employee_position" name="employee_position">#}
+{#                                                <option value="">----------</option>#}
+{#                                                {% for empposition in positions %}#}
+{#                                                    <option value="{{empposition.id}}">{{empposition.name}}</option>#}
+{#                                                {% endfor %}#}
+{#                                            </select>#}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-sm-4">
+                                        {% for data in empposition %}
+                                            <input class="form-control" id="id_yearfrom" maxlength="30" name="yearfrom[]" type="date" value="{{ data.yearfrom|date:'Y-m-d'|default:'' }}" readonly="readonly"></br>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="menu7" class="tab-pane fade">
+{#                                <h3>Medical History</h3>#}
+                                <form method="post" enctype="multipart/form-data">
+
+                                    <input style="margin-top: 10px" type="file" name="medical_his" id="medical_his">
+
+                                </form>
+
+                                <center style="text-align: center;margin-top: 10px">
+                                    <button value="submit" type="submit" value="Start upload" class="btn btn-primary">Update Employee</button>
+                                </center>
+
+                            </div>
+                            <div id="menu8" class="tab-pane fade">
+{#                                <h3>Seminars/Trainings</h3>#}
+                                <form method="post" enctype="multipart/form-data">
+
+                                    <input style="margin-top: 10px" type="file" name="seminar" id="seminar">
+
+                                </form>
+
+                                <center style="text-align: center;margin-top: 10px">
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </center>
+
+                            </div>
+                            <div id="menu9" class="tab-pane fade">
+{#                                <h3>Test Result</h3>#}
+                                <form method="post" enctype="multipart/form-data">
+
+                                    <input style="margin-top: 10px" type="file" name="test" id="test">
+
+                                </form>
+
+                                <center style="text-align: center;margin-top: 10px">
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </center>
+
+                            </div>
+                            <div id="menu10" class="tab-pane fade">
+{#                                <h3>Violations</h3>#}
+                                <form method="post" enctype="multipart/form-data">
+
+                                    <input style="margin-top: 10px" type="file" name="violations" id="violations">
+
+                                </form>
+
+                                <center style="text-align: center;margin-top: 10px">
+                                    <button value="submit" type="submit" class="btn btn-primary">Update Employee</button>
+                                </center>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+			{% comment %}</div> <!--well bs-sidebar affix-->{% endcomment %}
+        </div> <!--col-sm-2-->
+        <div class="col-sm-12">
+            <div class='container-fluid'>
+                <br><br>
+               {% block content %}
+               {% endblock %}
+            </div>
+        </div>
+    </div>
+	{% comment %}<footer>
+		<div class="container-fluid">
+			<p><a href="http://www.inquirer.com.ph/contacts-us/" target="_blank">Contact</a> | <a href="http://www.inquirer.com.ph" target="_blank">Philippine Daily Inquirer</a></p>
+		</div>
+	</footer>{% endcomment %}
+
+</body>
+
+</html>
+
+<script>
+
+    $(function(){
+        $('.select2').select2();
+
+        //product list
+        product_list = "<select name='college[]' class='form-control select2 college'>";
+        product_list += "<option value=''>-- Select --</option>";
+        {% for data in mcollege %}
+            product_list += "<option value='{{ data.id }}'>[{{ data.code }}]&nbsp;&nbsp;&nbsp;{{ data.name }}</option>";
+        {% endfor %}
+        product_list += "</select>";
+
+        $('#item_add').on('click', function(){
+            var valid = true;
+            $('.college').each(function(){
+                if($(this).val() == '' ){
+{#                    customAlert($('#item-save-warning'));#}
+                    valid = false;
+                }
+{#                if((($(this).parent().parent().find('.debit').val() != '') && ($(this).parent().parent().find('.debit').val() != '0.00')) &&#}
+{#                        (($(this).parent().parent().find('.credit').val() != '') && ($(this).parent().parent().find('.credit').val() != '0.00'))){#}
+{#                    customAlert($('#item-save-warning2'));#}
+{#                    $(this).parent().parent().find('.debit').val('');#}
+{#                    $(this).parent().parent().find('.credit').val('');#}
+{#                    valid = false;#}
+{#                }#}
+            });
+            if(valid){
+                $('#menu3 > tbody').append("<tr>" +
+                        "<td></td>" +
+                        "<td>"+product_list+"</td>" +
+                        "<td><a href='#' style='font-size: 13px' class='item_delete'><i class='icon fa-trash' aria-hidden='true'></i></a></td>" +
+                        "</tr>");
+                $('.select2').select2();
+{#                itemRecount();#}
+{#                computeTotalAmount();#}
+{#                initMaskMoney('po_dynamic');#}
+            }
+        });
+    });
+
+</script>
+
+
+
+

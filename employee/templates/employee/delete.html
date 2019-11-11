@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body class="body" style="background-color:#f6f6f6">
+
+<div class="panel-body">
+    <form autocomplete="off" method="post">
+        {% csrf_token %}
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="alert-box">
+                <div class="alert dark alert-danger style-alert danger-border-color">
+
+                    <p>Are you sure you want to delete  {{ object.first_name }}
+                                                    {{ object.middle_name }}
+                                                    {{ object.last_name }} </br>?</p>
+
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-2 col-xs-2">
+                <input type="submit" value="yes" class="btn btn-block btn-default waves-effect waves-light"/>
+                <button><a href="{% url 'employee:index' %}" class="btn btn-default">no</a></button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+
+{#{% extends 'base-form.html' %}#}
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Records</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type = "text/css"/>
+    <style>
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        border: none;
+        text-align: left;
+        padding: 5px;
+    }
+
+    #formheading
+    {
+        border: #ECECEC solid 1px;
+        margin-bottom: 12px;
+        margin-top: 15px;
+    }
+
+    tr:nth-child(even){background-color: #f2f2f2}
+
+    </style>
+</head>
+<body>
+
+<div class="col-md-10 container-fluid" style="min-height: 100%;">
+    <div id='formheading'>
+        <h4>Employee Records</h4>
+    </div>
+    <form action="" method="get">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+{#                    <label for="Keyword">Keyword</label>#}
+                    <input type="text" class="form-control" placeholder="Keyword" name="keyword" value="{{ keyword }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+{#                    <label for="Keyword">Keyword</label>#}
+                    <select name="sort" class="form-control" id="">
+                        <option value="first_name" {% if sort == 'first_name' %} selected="selected"{%  endif %}>First_name</option>
+                        <option value="code" {% if sort == 'code' %} selected="selected"{% endif %}>Code</option>
+                        <option value="department" {% if sort == 'department' %} selected="selected"{% endif %}>Department</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+{#                    <label for="Keyword">Keyword</label>#}
+                    <select name="order" class="form-control" id="">
+                        <option value="asc" {% if order == 'asc' %} selected="selected"{% endif %}>A-Z</option>
+                        <option value="desc" {% if order == 'desc' %} selected="selected"{% endif %}>Z-A</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <input type="submit" value="search" class="btn btn-success">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <a href="create" class="btn btn-success" target="_blank">add new</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Entries: {{ count }}
+            </div>
+        </div>
+    </form>
+</div>
+<div class="col-md-10 container-fluid" style="min-height: 100%;">
+    <div style="overflow-x:auto;">
+        <table class="table" cellspacing="0" width="100%">
+            <tr>
+                <th>No</th>
+                <th>Code</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Department</th>
+                <th></th>
+            </tr>
+            {% for object in object_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ object.code}} </td>
+                    <td>{{ object.first_name }} </td>
+                    <td>{{ object.middle_name }} </td>
+                    <td>{{ object.last_name }} </td>
+                    <td>{{ object.department}} </td>
+                    <td><a href="{% url 'employee:update' object.pk %}" target="_blank">view</a>
+                    <a href="{% url 'employee:delete' object.pk %}">delete</a>
+                    </td>
+                </tr>
+
+            {% endfor %} </br>
+        </table>
+    </div>
+</div>
+
+{% if is_paginated %}
+<hr>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pagination-sm">
+        {% if page_obj.has_previous %}
+          <!-- If it ain't a search result display, don't append the search query
+               to the URL. -->
+        {% if not search %}
+        <li class="page-item">
+            <a class="page-link" href="{% url 'employee:index' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+        </li>
+        {% else %}
+        <!-- Append the searched query to the URL, so that on a search results page,
+           the pagination don't revert to listing all the listview items. -->
+        <li class="page-item">
+            <a class="page-link" href="{% url 'employee:index' %}?{{search}}&page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        {% endif %}
+        {% for object in page_obj.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="{% url 'employee:index' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        {% if not search %}
+        <li class="page-item">
+            <a class="page-link" href="{% url 'employee:index' %}?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="{% url 'employee:index' %}?{{search}}&page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+
+</body>
+</html>
+
